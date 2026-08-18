@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BERVON — AI Revenue System</title>
+<style>
+:root{
+  --bg:#070a0f;--panel:#0d121a;--panel2:#111824;--line:#243044;
+  --text:#f5f7fb;--muted:#8d9aaf;--blue:#4da3ff;--cyan:#27d7ff;
+  --green:#36d38b;--amber:#f2bd58;--red:#ff6675;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 80% 0%,#10223b 0,#070a0f 35%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh;display:flex}
+.sidebar{width:250px;background:#090d14;border-right:1px solid var(--line);padding:24px 16px;position:fixed;inset:0 auto 0 0;z-index:5}
+.brand{display:flex;gap:10px;align-items:center;padding:4px 10px 28px}
+.logo{width:38px;height:38px;border:1px solid #5a6c86;border-radius:11px;display:grid;place-items:center;font-weight:900;font-size:18px;background:linear-gradient(145deg,#182331,#0a0e15)}
+.brand b{letter-spacing:4px;font-size:16px}.brand span{display:block;color:var(--muted);font-size:10px;letter-spacing:1.4px;margin-top:3px}
+.nav{display:grid;gap:7px}.nav button{background:transparent;border:1px solid transparent;color:#aab5c6;text-align:left;padding:13px 14px;border-radius:11px}.nav button:hover,.nav button.active{background:#121a26;border-color:#26364d;color:#fff}.nav small{float:right;color:#68758a}
+.sidebar-foot{position:absolute;bottom:20px;left:16px;right:16px;color:#637086;font-size:11px;line-height:1.5}
+.main{margin-left:250px;width:calc(100% - 250px);padding:28px;max-width:1500px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:24px}
+.eyebrow{color:#6f88a7;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700}.top h1{margin:5px 0 5px;font-size:30px}.sub{color:var(--muted);margin:0}
+.badge{border:1px solid #2b415f;background:#0c1622;color:#8ec7ff;border-radius:999px;padding:8px 12px;font-size:12px;white-space:nowrap}
+.view{display:none}.view.active{display:block}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:linear-gradient(145deg,#0e141d,#0a0e15);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 10px 30px #0003}.label{color:#91a0b4;font-size:13px}.metric{font-size:30px;font-weight:800;margin-top:7px}.trend{font-size:12px;color:var(--green);margin-top:5px}
+.row{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-top:16px}
+.card h2{font-size:17px;margin:0 0 6px}.card p{color:var(--muted);line-height:1.5}
+.table{width:100%;border-collapse:collapse;margin-top:14px}.table th,.table td{text-align:left;padding:13px 8px;border-bottom:1px solid #1d2737;font-size:13px}.table th{color:#738197;font-weight:600}.pill{display:inline-block;padding:5px 8px;border-radius:999px;background:#15202d;border:1px solid #2a394d;color:#a9c8e9;font-size:11px}.pill.green{color:#7ef0b9}.pill.amber{color:#ffd787}.pill.red{color:#ff9aa5}
+.btn{border:1px solid #2d3c52;background:#141d2a;color:#eaf2ff;padding:11px 15px;border-radius:10px;font-weight:700}.btn:hover{background:#1a2636}.btn.primary{background:linear-gradient(135deg,#3d9bff,#2874db);border-color:#4da3ff;color:#fff}.btn.full{width:100%;margin-top:12px}.actions{display:flex;gap:9px;flex-wrap:wrap}
+.notice{padding:13px 15px;border:1px solid #28415c;background:#0c1723;border-radius:12px;color:#a9bdd5;font-size:12px;margin-bottom:16px}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.field label{display:block;color:#91a0b4;font-size:12px;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;background:#080c12;border:1px solid #2a374a;color:#f5f7fb;border-radius:10px;padding:12px;outline:none}.field textarea{min-height:95px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#4da3ff}
+.scorebox{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center;margin-top:18px}.score{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;border:8px solid #24598d;background:#0b1521;font-size:36px;font-weight:900}.score span{display:block;font-size:11px;color:#8fa1b7;text-align:center;font-weight:600}.result h3{margin:0 0 5px;font-size:22px}.result ul{color:#aeb9ca;line-height:1.7;padding-left:18px}.recommend{border:1px solid #284a66;background:#0c1824;padding:14px;border-radius:12px;margin-top:12px}.recommend b{color:#8ecbff}
+.pipeline{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;overflow:auto}.stage{min-width:170px;background:#0b1017;border:1px solid var(--line);border-radius:13px;padding:12px}.stage h3{font-size:12px;color:#9ca9bc;margin:0 0 10px;text-transform:uppercase;letter-spacing:1px}.deal{background:#121a25;border:1px solid #253247;border-radius:10px;padding:10px;margin-top:8px;font-size:12px}.deal b{display:block;font-size:13px;margin-bottom:4px}.muted{color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.kpi{padding:14px;border-radius:12px;background:#0b1119;border:1px solid #1d2a3c}.kpi b{display:block;font-size:21px;margin-top:4px}
+.toast{position:fixed;right:20px;bottom:20px;background:#111a25;border:1px solid #31506f;padding:13px 16px;border-radius:12px;display:none;z-index:20;box-shadow:0 12px 35px #0008}
+.mobilebar{display:none}
+@media(max-width:900px){
+ .sidebar{display:none}.main{margin-left:0;width:100%;padding:18px 15px 90px}.top h1{font-size:25px}.grid4{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:1fr}.pipeline{grid-template-columns:repeat(6,170px)}.mobilebar{display:flex;position:fixed;bottom:0;left:0;right:0;background:#0a0f16;border-top:1px solid #263143;padding:9px 8px;z-index:10;gap:6px}.mobilebar button{flex:1;border:0;background:transparent;color:#8794a8;font-size:10px;padding:7px 2px;border-radius:9px}.mobilebar button.active{background:#141e2b;color:#fff}.mobilebar strong{display:block;font-size:17px}.formgrid{grid-template-columns:1fr}.scorebox{grid-template-columns:1fr}.score{margin:auto}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">BV</div><div><b>BERVON</b><span>AI REVENUE SYSTEM</span></div></div>
+  <div class="nav">
+    <button data-view="dashboard" class="active">Dashboard <small>01</small></button>
+    <button data-view="qualify">AI Qualification <small>02</small></button>
+    <button data-view="leads">Leads <small>128</small></button>
+    <button data-view="pipeline">Pipeline <small>23</small></button>
+    <button data-view="followup">Follow-up AI <small>04</small></button>
+    <button data-view="settings">Settings</button>
+  </div>
+  <div class="sidebar-foot">Concept demonstration<br>Scores and records are illustrative. No OpenPayd systems or customer data are connected.</div>
+</aside>
+
+<main class="main">
+<header class="top">
+  <div><div class="eyebrow">BERVON / AI REVENUE INFRASTRUCTURE</div><h1 id="title">Revenue command centre</h1><p class="sub" id="subtitle">Turn inbound opportunities into prioritised sales actions.</p></div>
+  <div class="badge">● DEMO MODE</div>
+</header>
+
+<section id="dashboard" class="view active">
+ <div class="notice">BERVON concept demo. The workflow below shows how an AI revenue layer could score, prioritise and route opportunities before a sales rep spends time on them.</div>
+ <div class="grid4">
+  <div class="card"><div class="label">Inbound leads</div><div class="metric">128</div><div class="trend">+18% vs previous period</div></div>
+  <div class="card"><div class="label">Qualified</div><div class="metric">78</div><div class="trend">61% qualification rate</div></div>
+  <div class="card"><div class="label">Meetings</div><div class="metric">23</div><div class="trend">29% of qualified</div></div>
+  <div class="card"><div class="label">Pipeline influenced</div><div class="metric">£184.5k</div><div class="trend">Illustrative</div></div>
+ </div>
+ <div class="row">
+  <div class="card"><h2>Priority queue</h2><p>What should sales work on first?</p>
+   <table class="table"><thead><tr><th>Lead</th><th>Fit</th><th>Intent</th><th>Action</th></tr></thead><tbody>
+    <tr><td>Northstar Payments</td><td><span class="pill green">94</span></td><td>High</td><td>Contact now</td></tr>
+    <tr><td>Vector Markets</td><td><span class="pill green">88</span></td><td>High</td><td>Route to AE</td></tr>
+    <tr><td>Atlas Digital</td><td><span class="pill amber">71</span></td><td>Medium</td><td>Nurture</td></tr>
+   </tbody></table>
+   <div class="actions" style="margin-top:14px"><button class="btn primary" data-view="qualify">▶ Run qualification</button><button class="btn" data-view="leads">View all leads</button></div>
+  </div>
+  <div class="card"><h2>Revenue signals</h2><p>Illustrative operating view.</p><div class="kpis">
+   <div class="kpi"><span class="muted">High priority</span><b>17</b></div>
+   <div class="kpi"><span class="muted">Avg. score</span><b>76</b></div>
+   <div class="kpi"><span class="muted">At-risk</span><b>6</b></div>
+  </div><button class="btn full" data-view="followup">Generate follow-up</button></div>
+ </div>
+</section>
+
+<section id="qualify" class="view">
+ <div class="card">
+  <h2>AI Lead Qualification</h2><p>Enter a hypothetical prospect. BERVON scores commercial fit, intent and urgency to recommend the next sales action.</p>
+  <div class="formgrid">
+   <div class="field"><label>Company</label><input id="company" value="OpenPayd"></div>
+   <div class="field"><label>Website</label><input id="website" value="openpayd.com"></div>
+   <div class="field"><label>Business type</label><select id="type"><option>B2B fintech / payments</option><option>Crypto infrastructure</option><option>SaaS</option><option>Marketplace</option><option>Other</option></select></div>
+   <div class="field"><label>Estimated monthly value</label><select id="value"><option value="5">£100k–£500k</option><option value="10">£500k–£1m</option><option value="15">£1m–£5m</option><option value="20">£5m+</option></select></div>
+   <div class="field"><label>Urgency</label><select id="urgency"><option value="20">Actively evaluating</option><option value="12">Within 90 days</option><option value="6">Exploring</option></select></div>
+   <div class="field"><label>Use case</label><select id="usecase"><option>Payments / accounts</option><option>Stablecoin infrastructure</option><option>FX / treasury</option><option>Lead qualification / revenue</option></select></div>
+   <div class="field"><label>Decision-maker involved?</label><select id="dm"><option value="15">Yes</option><option value="5">Unknown</option><option value="0">No</option></select></div>
+   <div class="field"><label>Current pain</label><textarea id="pain">High volume of inbound opportunities and limited sales capacity to manually assess every lead.</textarea></div>
+  </div>
+  <button class="btn primary full" id="run">⚡ Run BERVON Qualification</button>
+ </div>
+ <div id="result" class="card" style="display:none">
+  <div class="eyebrow">AI DECISION</div>
+  <div class="scorebox"><div class="score" id="score">0<div><span>/ 100</span></div></div><div class="result"><h3 id="priority">—</h3><p id="reason">—</p><ul id="reasons"></ul><div class="recommend"><b>Recommended action:</b> <span id="action"></span></div></div></div>
+  <div class="actions" style="margin-top:16px"><button class="btn primary" id="saveLead">Save to pipeline</button><button class="btn" data-view="followup">Generate follow-up</button></div>
+ </div>
+</section>
+
+<section id="leads" class="view">
+ <div class="card"><h2>Lead intelligence</h2><p>Prioritised opportunities with explainable scoring.</p>
+ <table class="table"><thead><tr><th>Company</th><th>Segment</th><th>Score</th><th>Intent</th><th>Owner action</th></tr></thead><tbody>
+ <tr><td>Northstar Payments</td><td>Payments</td><td><span class="pill green">94</span></td><td>High</td><td>Contact now</td></tr>
+ <tr><td>Vector Markets</td><td>Digital assets</td><td><span class="pill green">88</span></td><td>High</td><td>AE review</td></tr>
+ <tr><td>OpenPayd — concept</td><td>Fintech</td><td><span class="pill green">92</span></td><td>High</td><td>Demo / feedback</td></tr>
+ <tr><td>Atlas Digital</td><td>Fintech</td><td><span class="pill amber">71</span></td><td>Medium</td><td>Nurture</td></tr>
+ </tbody></table>
+ </div>
+</section>
+
+<section id="pipeline" class="view">
+ <div class="card"><h2>Revenue pipeline</h2><p>Move opportunities from qualification to close.</p>
+ <div class="pipeline">
+  <div class="stage"><h3>New</h3><div class="deal"><b>Mercury Labs</b><span class="muted">£8k est.</span></div></div>
+  <div class="stage"><h3>Qualified</h3><div class="deal"><b>Vector Markets</b><span class="muted">£18k est.</span></div><div class="deal"><b>Northstar</b><span class="muted">£12k est.</span></div></div>
+  <div class="stage"><h3>Contacted</h3><div class="deal"><b>Atlas Digital</b><span class="muted">£7k est.</span></div></div>
+  <div class="stage"><h3>Meeting</h3><div class="deal"><b>Helix Finance</b><span class="muted">£22k est.</span></div></div>
+  <div class="stage"><h3>Proposal</h3><div class="deal"><b>Nova Pay</b><span class="muted">£31k est.</span></div></div>
+  <div class="stage"><h3>Won</h3><div class="deal"><b>Example Client</b><span class="muted">£14k ARR</span></div></div>
+ </div>
+ </div>
+</section>
+
+<section id="followup" class="view">
+ <div class="card"><h2>Follow-up AI</h2><p>Create a concise first-touch message from the qualification context.</p>
+ <div class="formgrid"><div class="field"><label>Prospect</label><input id="fcompany" value="OpenPayd"></div><div class="field"><label>Contact role</label><input id="frole" value="Revenue / Sales leader"></div></div>
+ <button class="btn primary full" id="generate">Generate personalised message</button>
+ <div id="message" class="field" style="margin-top:14px;display:none"><label>Draft</label><textarea id="draft" style="min-height:210px"></textarea><button class="btn" id="copy" style="margin-top:9px">Copy message</button></div>
+ </div>
+</section>
+
+<section id="settings" class="view">
+ <div class="card"><h2>Demo settings</h2><p>Demo environment only. No customer data, OpenPayd API, CRM or production automation is connected.</p>
+ <div class="notice">Next production layer: connect BERVON to a CRM + Supabase, then add an LLM-based scoring service and workflow automation.</div></div>
+</section>
+</main>
+</div>
+
+<div class="mobilebar">
+ <button data-view="dashboard" class="active"><strong>⌂</strong>Home</button>
+ <button data-view="qualify"><strong>◎</strong>Qualify</button>
+ <button data-view="leads"><strong>◈</strong>Leads</button>
+ <button data-view="pipeline"><strong>▦</strong>Pipeline</button>
+ <button data-view="followup"><strong>✦</strong>AI</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const titles={
+ dashboard:["Revenue command centre","Turn inbound opportunities into prioritised sales actions."],
+ qualify:["AI lead qualification","Score a prospect and get the recommended next action."],
+ leads:["Lead intelligence","See which opportunities deserve attention first."],
+ pipeline:["Revenue pipeline","Move opportunities from qualification to close."],
+ followup:["Follow-up AI","Turn qualification context into a personalised first touch."],
+ settings:["Demo settings","BERVON configuration and production roadmap."]
+};
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.style.display="none",2200)}
+function showView(id){
+ document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===id));
+ document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===id));
+ document.getElementById("title").textContent=titles[id][0];document.getElementById("subtitle").textContent=titles[id][1];
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)showView(b.dataset.view)});
+
+document.getElementById("run").addEventListener("click",()=>{
+ let score=42;
+ score += document.getElementById("type").value.includes("fintech")?18:document.getElementById("type").value.includes("Crypto")?16:8;
+ score += +document.getElementById("value").value;
+ score += +document.getElementById("urgency").value;
+ score += +document.getElementById("dm").value;
+ score=Math.min(99,score);
+ const company=document.getElementById("company").value||"Prospect";
+ const priority=score>=85?"HIGH PRIORITY":score>=70?"MEDIUM PRIORITY":"LOW PRIORITY";
+ const action=score>=85?"Route to senior sales immediately and personalise outreach.":score>=70?"Sales review within 24 hours; add to active nurture.":"Nurture and monitor for stronger buying signals.";
+ document.getElementById("score").innerHTML=score+'<div><span>/ 100</span></div>';
+ document.getElementById("priority").textContent=priority+" — "+company;
+ document.getElementById("reason").textContent="BERVON combines ICP fit, commercial potential, urgency and buying context into one explainable priority score.";
+ document.getElementById("reasons").innerHTML=[
+  "Strong fit with the selected target segment.",
+  "Commercial value and urgency increase the opportunity score.",
+  "Decision-maker involvement improves routing confidence."
+ ].map(x=>"<li>"+x+"</li>").join("");
+ document.getElementById("action").textContent=action;
+ document.getElementById("result").style.display="block";
+ document.getElementById("result").scrollIntoView({behavior:"smooth",block:"start"});
+ window.lastLead={company,score,action};
+ toast("Qualification complete");
+});
+document.getElementById("saveLead").addEventListener("click",()=>toast("Lead saved to demo pipeline"));
+document.getElementById("generate").addEventListener("click",()=>{
+ const c=document.getElementById("fcompany").value||"your team",r=document.getElementById("frole").value||"team";
+ const text=`Hi ${r},\n\nI’m building BERVON, an AI revenue system designed to help B2B fintech and payments teams prioritise inbound opportunities before sales capacity gets spent.\n\nI put together a short concept demo using ${c} as the example. It shows how a revenue team could combine lead context, commercial value and intent into an explainable priority score and recommended action.\n\nIt’s not connected to ${c} or any live data — it’s simply a working concept. If useful, I’d be happy to send it over and get your honest take on whether the workflow would be valuable to a team like yours.\n\nBest,\nBERVON`;
+ document.getElementById("draft").value=text;document.getElementById("message").style.display="block";toast("Draft generated");
+});
+document.getElementById("copy").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(document.getElementById("draft").value);toast("Message copied")}catch(e){toast("Select and copy the draft")}});
+
+// Keep navigation reliable even if opened as a local file.
+showView("dashboard");
+</script>
+</body>
+</html>
