@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BERVON — AI Lead Qualification</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#07090d;color:#f4f7fb;font:15px Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{min-height:100vh;display:flex}.side{width:230px;background:#0b0f15;border-right:1px solid #202938;padding:24px 16px;display:flex;flex-direction:column}
+.logo{font-size:23px;font-weight:800;letter-spacing:3px;padding:8px 12px 30px}.logo span{color:#4da3ff}
+.nav{display:grid;gap:7px}.nav button{background:none;border:0;color:#8f9bad;text-align:left;padding:12px;border-radius:9px}.nav button.active,.nav button:hover{background:#151c27;color:#fff}
+.sidefoot{margin-top:auto;color:#687487;font-size:12px;padding:12px}
+.main{flex:1;padding:28px;max-width:1400px;margin:auto;width:100%}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+h1{margin:0;font-size:28px}.muted{color:#8f9bad}.badge{padding:6px 9px;border:1px solid #263244;border-radius:999px;color:#8f9bad;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#0d1118;border:1px solid #202938;border-radius:14px;padding:18px}.kpi{font-size:27px;font-weight:750;margin-top:8px}
+.layout{display:grid;grid-template-columns:1.25fr .75fr;gap:16px;margin-top:16px}.sectiontitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;font-weight:700}
+.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:13px 8px;border-bottom:1px solid #202938}.table th{color:#687487;font-size:12px;text-transform:uppercase}
+.score{font-weight:800;color:#4da3ff}.high{color:#36d399}.med{color:#f5b942}.low{color:#ff6b7a}
+button.primary{background:#4da3ff;color:#06101b;border:0;padding:11px 15px;border-radius:9px;font-weight:750}.button2{background:#151c27;color:#f4f7fb;border:1px solid #263244;padding:10px 14px;border-radius:9px}
+form{display:grid;gap:12px}label{font-size:12px;color:#8f9bad}input,textarea,select{width:100%;background:#090d13;border:1px solid #263244;color:#fff;padding:11px;border-radius:8px;outline:none}textarea{min-height:90px;resize:vertical}
+.result{display:none}.result.show{display:block}.bigscore{font-size:56px;font-weight:850;color:#4da3ff}.bars{display:grid;gap:10px;margin:15px 0}.bar{height:8px;background:#1a2230;border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;background:#4da3ff;border-radius:8px}.row{display:flex;justify-content:space-between;gap:15px}.reason{line-height:1.6;color:#c4cbd6}.action{border-left:3px solid #4da3ff;padding:10px 12px;background:#111722;margin-top:12px}
+.activity{display:grid;gap:13px}.activity div{padding-bottom:13px;border-bottom:1px solid #202938}.small{font-size:12px;color:#687487}
+.notice{padding:12px;border:1px solid #263244;background:#0b1018;border-radius:10px;margin-bottom:16px;color:#aeb8c7}
+@media(max-width:900px){.side{width:190px}.logo{font-size:19px;padding-left:8px}.nav button{font-size:14px}.sidefoot{display:none}.grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}}
+@media(max-width:560px){.main{padding:18px}.grid{grid-template-columns:1fr}.top{align-items:flex-start;gap:10px}.top .badge{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="logo">BERV<span>O</span>N</div>
+  <div class="nav">
+    <button class="active" onclick="show('dashboard',this)">Dashboard</button>
+    <button onclick="show('qualify',this)">AI Qualification</button>
+    <button onclick="show('leads',this)">Leads</button>
+    <button onclick="show('pipeline',this)">Pipeline</button>
+  </div>
+  <div class="sidefoot">AI Revenue System<br>Concept Demo · V1</div>
+</aside>
+<main class="main">
+<section id="dashboard">
+<div class="top"><div><h1>AI Revenue System</h1><div class="muted">Turn inbound opportunities into prioritised sales actions.</div></div><div style="display:flex;gap:10px;align-items:center"><button class="primary" onclick="show('qualify')">▶ Run Live Qualification</button><span class="badge">DEMO MODE</span></div></div>
+<div class="notice">This is a BERVON concept demonstration. Scores are illustrative and are not connected to OpenPayd or any real customer data.</div>
+<div class="grid">
+<div class="card"><div class="muted">Total Leads</div><div class="kpi">128</div></div>
+<div class="card"><div class="muted">Qualified</div><div class="kpi">78</div></div>
+<div class="card"><div class="muted">Meetings</div><div class="kpi">23</div></div>
+<div class="card"><div class="muted">Pipeline</div><div class="kpi">£184.5k</div></div>
+</div>
+<div class="layout">
+<div class="card"><div class="sectiontitle">Recent leads <button class="primary" onclick="show('qualify')">▶ Qualify a lead</button></div>
+<table class="table"><thead><tr><th>Lead</th><th>Company</th><th>Score</th><th>Priority</th></tr></thead>
+<tbody><tr><td>Alex Morgan</td><td>Example Payments Platform</td><td class="score">92</td><td class="high">HIGH</td></tr>
+<tr><td>Maya Reed</td><td>Northstar Treasury</td><td class="score">84</td><td class="high">HIGH</td></tr>
+<tr><td>Jamie Cole</td><td>Vector Ledger</td><td class="score">67</td><td class="med">MEDIUM</td></tr>
+<tr><td>Sam Vale</td><td>Mercury Flow</td><td class="score">42</td><td class="low">LOW</td></tr></tbody></table></div>
+<div class="card"><div class="sectiontitle">Activity</div><div class="activity">
+<div><b>AI qualified Alex Morgan</b><br><span class="small">92/100 · High priority · Just now</span></div>
+<div><b>Follow-up generated</b><br><span class="small">Example Payments Platform · 4 min ago</span></div>
+<div><b>Lead moved to Qualified</b><br><span class="small">Northstar Treasury · 18 min ago</span></div>
+</div></div>
+</div>
+</section>
+
+<section id="qualify" style="display:none">
+<div class="top"><div><h1>AI Lead Qualification</h1><div class="muted">Enter a lead below, then press <b>Run BERVON Qualification</b>.</div></div><span class="badge">ILLUSTRATIVE</span></div>
+<div class="layout">
+<div class="card">
+<div class="sectiontitle">Lead information</div>
+<form onsubmit="qualify(event)">
+<label>Name<input id="name" value="Alex Morgan" required></label>
+<label>Company<input id="company" value="Example Payments Platform" required></label>
+<label>Email<input id="email" value="alex@example.com" type="email" required></label>
+<label>Industry<select id="industry"><option>Payments</option><option>Fintech</option><option>Crypto infrastructure</option><option>B2B SaaS</option><option>Other</option></select></label>
+<label>Team size<select id="size"><option>100+</option><option>50–99</option><option>20–49</option><option>1–19</option></select></label>
+<label>What are they looking for?<textarea id="need">We are expanding globally and need multi-currency accounts, payments and stablecoin on/off-ramp infrastructure.</textarea></label>
+<button class="primary">Run BERVON Qualification</button>
+</form>
+</div>
+<div class="card result" id="result">
+<div class="muted">BERVON AI score</div><div class="bigscore" id="score">92</div>
+<div class="high"><b id="priority">HIGH PRIORITY</b></div>
+<div class="bars">
+<div><div class="row"><span>Company Fit</span><b id="fit">95</b></div><div class="bar"><i id="fitbar"></i></div></div>
+<div><div class="row"><span>Intent</span><b id="intent">91</b></div><div class="bar"><i id="intentbar"></i></div></div>
+<div><div class="row"><span>Urgency</span><b id="urgency">89</b></div><div class="bar"><i id="urgencybar"></i></div></div>
+<div><div class="row"><span>Potential Value</span><b id="value">93</b></div><div class="bar"><i id="valuebar"></i></div></div>
+</div>
+<div class="reason" id="reason"></div>
+<div class="action"><b>Recommended action</b><div id="action" class="muted" style="margin-top:5px"></div></div>
+<div style="margin-top:15px"><button class="button2" onclick="generateFollowup()">Generate follow-up</button></div>
+<div id="followup" style="display:none;margin-top:12px" class="reason"></div>
+</div>
+</div>
+</section>
+
+<section id="leads" style="display:none">
+<div class="top"><div><h1>Leads</h1><div class="muted">Demo CRM view.</div></div></div>
+<div class="card"><table class="table"><thead><tr><th>Name</th><th>Company</th><th>Industry</th><th>AI Score</th><th>Stage</th></tr></thead>
+<tbody><tr><td>Alex Morgan</td><td>Example Payments Platform</td><td>Payments</td><td class="score">92</td><td>Qualified</td></tr><tr><td>Maya Reed</td><td>Northstar Treasury</td><td>Fintech</td><td class="score">84</td><td>Meeting</td></tr><tr><td>Jamie Cole</td><td>Vector Ledger</td><td>Crypto infrastructure</td><td class="score">67</td><td>New</td></tr><tr><td>Sam Vale</td><td>Mercury Flow</td><td>B2B SaaS</td><td class="score">42</td><td>Nurture</td></tr></tbody></table></div>
+</section>
+
+<section id="pipeline" style="display:none">
+<div class="top"><div><h1>Pipeline</h1><div class="muted">Illustrative opportunity flow.</div></div></div>
+<div class="grid">
+<div class="card"><b>New</b><p class="muted">12 leads</p><h2>£28k</h2></div>
+<div class="card"><b>Qualified</b><p class="muted">31 leads</p><h2>£61k</h2></div>
+<div class="card"><b>Meeting</b><p class="muted">15 leads</p><h2>£47k</h2></div>
+<div class="card"><b>Proposal</b><p class="muted">8 leads</p><h2>£48.5k</h2></div>
+</div>
+</section>
+</main></div>
+<script>
+function show(id,btn){
+ document.querySelectorAll('main section').forEach(s=>s.style.display='none');
+ document.getElementById(id).style.display='block';
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+ if(btn)btn.classList.add('active');
+}
+function qualify(e){
+ e.preventDefault();
+ const industry=document.getElementById('industry').value, size=document.getElementById('size').value;
+ const need=document.getElementById('need').value.toLowerCase();
+ let base=70;
+ if(['Payments','Fintech','Crypto infrastructure'].includes(industry)) base+=10;
+ if(size==='100+') base+=7; else if(size==='50–99') base+=5;
+ if(need.length>90) base+=5;
+ const score=Math.min(97,base);
+ const fit=Math.min(99,score+3), intent=Math.min(98,score-1), urgency=Math.min(97,score-3), value=Math.min(99,score+1);
+ set('score',score);set('fit',fit);set('intent',intent);set('urgency',urgency);set('value',value);
+ ['fit','intent','urgency','value'].forEach(x=>document.getElementById(x+'bar').style.width=document.getElementById(x).textContent+'%');
+ const p=score>=80?'HIGH PRIORITY':score>=60?'MEDIUM PRIORITY':'LOW PRIORITY';
+ const pc=score>=80?'high':score>=60?'med':'low';
+ const pr=document.getElementById('priority');pr.textContent=p;pr.className=pc;
+ document.getElementById('reason').textContent=`Illustrative assessment: ${industry} is a relevant B2B fintech category, the stated requirement suggests a concrete use case, and the company size indicates potential commercial value. A human sales owner should verify the information before acting.`;
+ document.getElementById('action').textContent=score>=80?'Route to a senior sales owner and review within 15 minutes.':score>=60?'Review and qualify further before routing.':'Place into nurture and request more information.';
+ document.getElementById('result').classList.add('show');document.getElementById('followup').style.display='none';
+}
+function set(id,v){document.getElementById(id).textContent=v}
+function generateFollowup(){
+ const company=document.getElementById('company').value, name=document.getElementById('name').value.split(' ')[0];
+ document.getElementById('followup').innerHTML=`<b>Draft follow-up</b><br><br>Hi ${name},<br><br>Thanks for reaching out. Based on what you've shared about ${company}, it looks like there may be a strong fit for the payments and financial infrastructure you’re exploring.<br><br>Would you be open to a short conversation to discuss your requirements and see whether there’s a fit?<br><br>— BERVON`;
+ document.getElementById('followup').style.display='block';
+}
+</script>
+</body>
+</html>
